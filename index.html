@@ -140,8 +140,8 @@
 
         <div class="footer">
             <p>
-                <img src="https://web.archive.org/web/20090829105437/http://geocities.com/Heartland/Meadows/1638/undercon.gif"
-                    alt="Under Construction" style="display:inline-block; vertical-align:middle; width: 100px;">
+                <img src="under_construction.png" alt="Under Construction"
+                    style="display:inline-block; vertical-align:middle; width: 100px;">
             </p>
             <p>你是本站的第 <span class="hit-counter">001997</span> 位访客！</p>
             <br>
@@ -149,6 +149,21 @@
             <p><a href="https://github.com/ron/xiudada" target="_blank">Click here to Sign my Guestbook</a></p>
         </div>
     </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            let count = localStorage.getItem("fakeVisitorCount");
+            if (!count) {
+                count = 1997; // 起始数值
+            } else {
+                count = parseInt(count) + 1;
+            }
+            localStorage.setItem("fakeVisitorCount", count);
+
+            let displayCount = String(count).padStart(6, '0');
+            document.querySelector(".hit-counter").textContent = displayCount;
+        });
+    </script>
 
 </body>
 
