@@ -107,6 +107,44 @@
             vertical-align: middle;
             margin: 0 10px;
         }
+
+        .hot-icon {
+            width: 40px;
+            height: 40px;
+            vertical-align: middle;
+            animation: blinker 0.3s linear infinite;
+        }
+
+        /* 3D spinning text effect */
+        .spin-3d {
+            display: inline-block;
+            animation: spin 3s infinite linear;
+            color: #FFFF00;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotateY(0deg);
+            }
+
+            100% {
+                transform: rotateY(360deg);
+            }
+        }
+
+        hr {
+            border: 0;
+            height: 5px;
+            background-image: linear-gradient(to right, #00FF00, #FF00FF, #00FFFF, #FFFF00);
+            margin: 30px 0;
+        }
+
+        .cursor-trail {
+            position: fixed;
+            pointer-events: none;
+            font-size: 16px;
+            z-index: 9999;
+        }
     </style>
 </head>
 
@@ -123,7 +161,10 @@
             <img src="favicon.png" class="rose-icon" alt="Rose">
         </h1>
 
-        <h2 class="blink">🌟 羞答答的玫瑰静悄悄的开 🌟</h2>
+        <hr>
+
+        <h2 class="blink"><img src="hot_icon.png" class="hot-icon" alt="HOT"> 🌟 <span
+                class="spin-3d">羞答答的玫瑰静悄悄的开</span> 🌟 <img src="hot_icon.png" class="hot-icon" alt="HOT"></h2>
 
         <div class="video-container">
             <!-- Bilibili Embed -->
@@ -163,9 +204,39 @@
 
             let displayCount = String(count).padStart(6, '0');
             document.querySelector(".hit-counter").textContent = displayCount;
+
+            // 90s Classic Mouse Trail Effect
+            let trailDots = [];
+            for (let i = 0; i < 10; i++) {
+                let dot = document.createElement('div');
+                dot.className = 'cursor-trail';
+                dot.textContent = '✨';
+                document.body.appendChild(dot);
+                trailDots.push({ el: dot, x: -100, y: -100 });
+            }
+            let mouseX = -100, mouseY = -100;
+            document.addEventListener('mousemove', function (e) {
+                mouseX = e.clientX;
+                mouseY = e.clientY;
+            });
+            function animateTrail() {
+                let x = mouseX, y = mouseY;
+                for (let i = 0; i < trailDots.length; i++) {
+                    let dot = trailDots[i];
+                    let nextX = dot.x + (x - dot.x) * 0.4;
+                    let nextY = dot.y + (y - dot.y) * 0.4;
+                    dot.x = nextX;
+                    dot.y = nextY;
+                    dot.el.style.left = nextX + 'px';
+                    dot.el.style.top = (nextY + 15 + i * 8) + 'px';
+                    x = nextX;
+                    y = nextY;
+                }
+                requestAnimationFrame(animateTrail);
+            }
+            animateTrail();
         });
     </script>
-
 </body>
 
 </html>
